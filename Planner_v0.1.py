@@ -18,7 +18,7 @@ REQUIRED_BY_PROFILE = {
         "core.functional.xc",
         "core.atomic_core.atoms",
         "core.rgrid.dl",
-        "core.rgrid.num_grid",
+        "core.rgrid.num_rgrid",
     ],
     "periodic" : [
        
@@ -58,13 +58,13 @@ DEFAULTS = {
     "core.tgrid.dt": 1.25e-3,
     "core.tgrid.nt": 5000,
     # ground state defaults:
-    f"{PACK_GROUND}core.scf.nscf": 300,
-    f"{PACK_GROUND}core.scf.threshold": 1.0e-9,
-    f"{PACK_GROUND}core.analysis.yn_out_psi": "y",
-    f"{PACK_GROUND}core.analysis.yn_out_dns": "y",
-    f"{PACK_GROUND}core.analysis.yn_out_dos": "y",
-    f"{PACK_GROUND}core.analysis.yn_out_pdos": "y",
-    f"{PACK_GROUND}core.analysis.yn_out_elf": "y",
+    f"{PACK_GROUND}.core.scf.nscf": 300,
+    f"{PACK_GROUND}.core.scf.threshold": 1.0e-9,
+    f"{PACK_GROUND}.core.analysis.yn_out_psi": "y",
+    f"{PACK_GROUND}.core.analysis.yn_out_dns": "y",
+    f"{PACK_GROUND}.core.analysis.yn_out_dos": "y",
+    f"{PACK_GROUND}.core.analysis.yn_out_pdos": "y",
+    f"{PACK_GROUND}.core.analysis.yn_out_elf": "y",
     # Polar defaults:
     f"{PACK_POLAR}.core.emfield.ae_shape1": "impulse",
     f"{PACK_POLAR}.core.emfield.epdir_re1": [0,0,1],
@@ -89,7 +89,7 @@ def plan(spec: dict) -> dict:
     
     #归一化packs，默认情况为计算基态
     pack = [p.get("name") for p in spec.get("packs", [])]
-    if not packs and spec.get("core",{}). get("calculation",{}).get("theory","dft") == "dft":
+    if not pack and spec.get("core",{}). get("calculation",{}).get("theory","dft") == "dft":
         pack = [PACK_GROUND]
 
     #启用blocks
@@ -128,7 +128,7 @@ def plan(spec: dict) -> dict:
 
     # 通用默认
     for k,v in DEFAULTS.items():
-        if any(k.startswith(p+".") for p in (PACK_GROUND,PACK_POLAR,PACK_EDYN)):
+        if any(k.startswith(p+".") for p in (PACK_GROUND,PACK_POLAR,PACK_ELEC_DYN)):
             continue
         if _get(spec, k) is None:
             _set(suggested, k, v)
