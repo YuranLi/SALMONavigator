@@ -129,7 +129,7 @@ class CommonCore(BaseModel):
     tgrid: Optional[TGrid] = None
     scf: Optional[Scf] = None
     emfield: Optional[Emfield] = None
-    analysis: Analysis = Analysis()
+    analysis: Analysis = Field(default_factory = Analysisdft)
     atomic_core: Atomic_Core
 
     @model_validator(mode='after')
