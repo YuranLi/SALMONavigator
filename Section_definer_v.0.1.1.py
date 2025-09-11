@@ -58,7 +58,7 @@ class TGrid(BaseModel):
 class Scf(BaseModel):
     """&scf / 电子结构计算相关参数"""
     nscf: conint(ge=1) = 300
-    threshold: confloat(gt=0) = 1e-17
+    threshold: confloat(gt=0) = 1e-9
 
 # ===== Emfield: 判别联合，按 shape 决定必填项 =====
 class EmfieldImpulse(BaseModel):
